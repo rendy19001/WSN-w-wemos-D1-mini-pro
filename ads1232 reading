@@ -1,0 +1,25 @@
+#include <Arduino.h>
+#include "ads1232.h"
+
+ads1232 ads; // Membuat objek dari kelas ads1232
+
+//sertakan pin speed untuk mengatur sampling menjadi 80 SPS
+
+void setup() {
+  
+  Serial.begin(9600);
+  ads.init(4, 5, 13);
+
+}
+
+void loop() {
+  if (ads.is_ready()) {  // Memeriksa apakah sensor siap
+    int32_t sensorData = ads.read();  // Lakukan pembacaan hanya jika sensor siap
+    sensorData = map(sensorData, 7000000, 8500000, 0, 8500000);
+    Serial.println(sensorData);  // Cetak data sensor jika pembacaan berhasil
+    } else {
+    return;
+    }
+  delay(100);
+}
+
